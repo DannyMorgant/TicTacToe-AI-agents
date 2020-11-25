@@ -1,11 +1,22 @@
+import TicTacToe
 import random
 from agent_scoring_heuristic import get_position_score
 
-def minimax_agent(game, depth=3):
+def copy_game(board):
+  """Returns a copy of the current TicTacToe board"""
+  d = board.get_shape()
+  instance = TicTacToe.Board(d[0], d[1])
+  b, ap = board.get_state()
+  instance.set_state(b, ap)
+  return instance
+
+def minimax_agent(game, depth=6):
+  """This is the initial call for the minimax algorithm.
+  Sets up the search and returns the move with the best evaluation."""
   valid_moves = game.get_valid_moves()
   move_scores = {}
   for m in valid_moves:
-    g = game.copy()
+    g = copy_game(game)
     g.play_move(m)
     score = minimax(g, depth-1, False)
     #if we found a winning move, just return it
@@ -19,7 +30,8 @@ def minimax_agent(game, depth=3):
   return random.choice( move_scores[max(move_scores.keys())])
 
 def minimax(game, depth, maximizing=False):
-  """Recursive evaluation function, implementation of the minimax base algorithm."""
+  """Recursive evaluation function, implementation of the minimax base algorithm.
+  Called by the minimax_agent function above."""
   
   pattern_scores = {'.111': 50,
                     '111.': 50,
@@ -52,7 +64,7 @@ def minimax(game, depth, maximizing=False):
                     '__.\n_0_\n0__': -10000,
                     '__0\n_._\n0__': -10000
                     }
-  g = game.copy()
+  g = copy_game(game)
   moves = game.get_valid_moves()
   #if end of variation, just evaluate the current position
   if (depth==0 or not moves) and maximizing:
@@ -69,7 +81,7 @@ def minimax(game, depth, maximizing=False):
       maximizing=True
       value = -100000
       for m in moves:
-        g = game.copy()
+        g = copy_game(game)
         g.play_move(m)
         value = max(value, minimax(g, depth-1, maximizing))
         #if we found a winning move we can end exploration

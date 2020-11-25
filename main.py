@@ -51,15 +51,15 @@ def compare_agents(dimensions, agent1, agent2, iterations=100):
 if __name__ == '__main__':
   from agent_minimax import minimax_agent, minimax
   from agent_random import random_agent
-  from agent_naive_heuristic import simple_heuristics
+  from agent_naive_heuristic import naive_heuristics
   from agent_scoring_heuristic import scoring_heuristics
   from agent_random_MCTS import random_mcts
 
-  dimensions = (4,4)
-  iters = 5
+  dimensions = (10,10)
+  iters = 50
 
   random = random_agent
-  naive = simple_heuristics
+  naive = naive_heuristics
   scoring = scoring_heuristics
   minimax = minimax_agent
   mcts = random_mcts

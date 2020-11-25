@@ -19,7 +19,7 @@ class Board(object):
   def copy(self):
     """Returns a copy of the current object"""
     instance = Board(self.width, self.height)
-    instance.board = self.board
+    instance.board = self.board.copy()
     instance.active_player = self.active_player
     return instance
 
